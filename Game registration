@@ -1,0 +1,35 @@
+ public void reg_func(View view) {
+        mAuth.createUserWithEmailAndPassword(emailText.getText().toString(), passWordText.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                           
+                           // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(RegActivity.this, "Register success",
+                                    Toast.LENGTH_SHORT).show();
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String userId = user.getUid();
+                           
+                           //set user object
+                            User user_object = new User(userName.getText().toString(), emailText.getText().toString(),score);
+                          
+                          // Write a message to the database
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("users").child(userId);
+                            myRef.setValue(user_object);
+
+                            startActivity(new Intent(RegActivity.this, login.class));
+                        } else {
+                        
+                            // If sign in fails, display a message to the user.
+
+                            Toast.makeText(RegActivity.this, "Register failed",
+                                    Toast.LENGTH_SHORT).show();
+
+
+                        }
+                      
+                    }
+                });
