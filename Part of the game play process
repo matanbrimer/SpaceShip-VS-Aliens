@@ -1,0 +1,35 @@
+
+
+private void draw () {
+        if (getHolder().getSurface().isValid()) {
+
+            Canvas canvas = getHolder().lockCanvas();
+            canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
+            canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
+
+            for (Alien alien : aliens)
+                canvas.drawBitmap(alien.getAlien(), alien.x, alien.y, paint);
+
+            canvas.drawText(score + "", screenX / 2f, 164, paint);
+
+            if (isGameOver) {
+                isPlaying = false;
+                canvas.drawBitmap(flight.getDead(), flight.x, flight.y, paint);
+                getHolder().unlockCanvasAndPost(canvas);
+                saveScore();
+                saveIfHighScore();
+                waitBeforeExiting ();
+
+                return;
+            }
+
+            canvas.drawBitmap(flight.getFlight(), flight.x, flight.y, paint);
+
+            for (Bullet bullet : bullets)
+                canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
+
+            getHolder().unlockCanvasAndPost(canvas);
+
+        }
+
+    }
