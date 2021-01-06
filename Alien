@@ -1,5 +1,5 @@
 
-##Create the alien character in several different forms in the game##
+##Create the alien character and all his shapes in the game##
  
  
  Bitmap alien1, alien2, alien3, alien4;
