@@ -1,0 +1,21 @@
+Importing information from the database to the main screen (record, user)
+
+   final TextView highScoreTxt = findViewById(R.id.highScoreTxt);
+        final TextView nameTxt = findViewById(R.id.nameTxt);
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    User uInfo = new User();
+                    uInfo.setName(ds.child(userId).getValue(User.class).getName());
+                    uInfo.setScore(ds.child(userId).getValue(User.class).getScore());
+                    String name = uInfo.getName();
+                    score = uInfo.getScore();
+                    highScoreTxt.setText("HighScore: " + score);
+                    nameTxt.setText("Hello " + name);
+
+                }
+            }
