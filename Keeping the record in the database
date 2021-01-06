@@ -1,0 +1,21 @@
+  
+  
+  private void saveIfHighScore() {
+        final String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("users/" + userId + "/score");
+        DatabaseReference Ref = database.getReference();
+        Ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    User uInfo = new User();
+                    uInfo.setScore(ds.child(userId).getValue(User.class).getScore());
+                    Integer oldScore = uInfo.getScore();
+                    if (oldScore < score) {
+                       
+                        myRef.setValue(score);
+                    }
+
+                }
+            }
